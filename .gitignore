@@ -3,3 +3,5 @@ target
 *.idea
 logs
 /.settings/
+/.classpath
+/.DS_Store
