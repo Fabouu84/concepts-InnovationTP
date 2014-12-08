@@ -5,3 +5,4 @@ logs
 /.settings/
 /.classpath
 /.DS_Store
+/cloudsim-3.0.3-src/
