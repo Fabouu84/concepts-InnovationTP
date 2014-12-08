@@ -61,7 +61,7 @@ public class Main {
 
         //Here you can insert your observers
         PeakPowerObserver peakPowerObserver = new PeakPowerObserver(hosts);
-        observers.build();
+        observers.build(hosts);
 
         CloudSim.startSimulation();
 

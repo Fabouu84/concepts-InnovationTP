@@ -1,5 +1,9 @@
 package fr.unice.vicc;
 
+import java.util.List;
+
+import org.cloudbus.cloudsim.power.PowerHost;
+
 /**
  * Just a container to declare your home-made observers.
  *
@@ -11,7 +15,7 @@ public class Observers {
     /**
      * Build all the observers.
      */
-    public void build() {
-
+    public void build(List<PowerHost> hosts) {
+    	AntiAffinityObserver antiAffinityObserver = new AntiAffinityObserver(hosts);
     }
 }
