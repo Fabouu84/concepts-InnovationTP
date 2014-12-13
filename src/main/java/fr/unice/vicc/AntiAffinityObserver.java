@@ -34,27 +34,26 @@ public class AntiAffinityObserver extends SimEntity {
 	@Override
 	public void processEvent(SimEvent ev) {
 		switch(ev.getTag()) {
-        case OBSERVE:
+		//TODO Apporter amélioration pour vitesse d'exécution
+        case OBSERVE: 
         	int x, y;
-        	
         	for(Host cHost : hosts){
-	        	if(cHost.getVmList().size() != 0){
-					Boolean condition = true; //Permet de savoir si je peux créer ma VM sur ce serveur
-					x = vm.getId()/100;
-					for(Vm cVm : cHost.getVmList()){ //On boucle sur la liste des VMs présente sur le serveur
-						y = cVm.getId()/100;
-						if(x == y){
-							condition = false;
-							break;
-						}
-					}
-					if(condition){
-						if(cHost.vmCreate(vm)){
-							System.out.println("Vm avec id : "+vm.getId()+" créé sur le host avec id : "+cHost.getId());
-							return true;
-						}
-					}
-	        	}
+	        	if(cHost.getVmList().size() > 1){ // Si il y a au moins 2 Vms sur le serveur, on compare toutes les Vms entre elles
+	        		for(int i=0;i<cHost.getVmList().size()-1;i++){
+	        			Vm cVm1 = cHost.getVmList().get(i);
+	        			x = cVm1.getId()/100;
+	        			for(int j=i+1;j<cHost.getVmList().size();j++){
+	        				Vm cVm2 = cHost.getVmList().get(j);
+	        				y = cVm2.getId()/100;
+	        				if(x == y){
+	        					//System.out.println("Erreur sur le host avec l'Id : "+cHost.getId());
+	        					//System.out.println("     Vms avec id : "+cVm1.getId()+" en conflit avec "+cVm2.getId());
+	        					Log.printLine("Erreur sur le host avec l'Id : "+cHost.getId());
+	        					Log.printLine("     Vms avec id : "+cVm1.getId()+" en conflit avec "+cVm2.getId());
+	        				}
+	        			}
+	        		}
+				}
         	}
             //Observation loop, re-observe in `delay` seconds
             send(this.getId(), delay, OBSERVE, null);

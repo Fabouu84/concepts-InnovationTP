@@ -7,9 +7,9 @@ import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.VmAllocationPolicy;
 
-public class AntiAffinityVmAllocationPolicyFactory extends VmAllocationPolicy{
+public class AntiAffinityVmAllocationPolicy extends VmAllocationPolicy{
 	
-	public AntiAffinityVmAllocationPolicyFactory(List<? extends Host> list) {
+	public AntiAffinityVmAllocationPolicy(List<? extends Host> list) {
 		super(list);
 	}
 
