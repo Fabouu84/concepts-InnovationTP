@@ -1,0 +1,22 @@
+Rapport YANG-MEUNIER
+
+NaiveVmAllocationPolicy
+	On gère ici seulement la création des Vms sur le premier host disponible. Pour cela on boucle sur nos hotes et on crée la vm. Si la fonction VmCreate nous retourne TRUE alors c'est ok sinon on passe à l'hote suivant et on fait pareil.
+
+AntiAffinityVmAllocationPolicy
+	Créer les Vms sur des hotes différents celon leurs groupes.
+		Groupe 0-99
+		Groupe 100-199
+		Groupe 200-299
+		...
+	Pour cela, on doit vérifier sur l'hote qu'il n'existe pas déja des Vms avec un id appartenant au meme groupe. 
+	Pour chaque hote, on vérifie s'il existe des VM, si non, on y crée la VM. Si oui, on vérifie par calcul (en comparant les id divisé par 100) si la règle n'est pas respectée.
+
+AntiAffinityObserver
+	Cette classe vérifie si la règle précédente est respectée. Pour cela, nous avons dû rajouter un paramètre host dans observers.build() de Main.java, nous permettant d'avoir la liste de nos hotes dans l'observer.
+	Pour exécuter l'observer, nous avons implémenté la fonction build de la classe observer.java.
+
+	Après l'affectation des VMs aux hotes, l'observer vérifie toutes les secondes qu'il n'y a pas conflit. Pour cela, le même calcul de vérification que précédemment est utilisé. Remarque : on pourrait n'utiliser qu'une seule vérification car les VMs sont créées à l'instant 0 et restent toujours dans le même hote.
+
+LoadBalanceVmAllocationPolicy
+	Cet algorithme trouve le meilleur hote en fonction des MIPS disponibles pour y créer la VM. On boucle alors sur nos hotes et on compare les 
