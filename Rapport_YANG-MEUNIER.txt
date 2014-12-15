@@ -1,4 +1,4 @@
-Rapport YANG-MEUNIER Test1
+Rapport YANG-MEUNIER
 
 NaiveVmAllocationPolicy
 	On gère ici seulement la création des Vms sur le premier host disponible. Pour cela on boucle sur nos hotes et on crée la vm. Si la fonction VmCreate nous retourne TRUE alors c'est ok sinon on passe à l'hote suivant et on fait pareil.
