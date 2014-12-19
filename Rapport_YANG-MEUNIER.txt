@@ -1,7 +1,7 @@
 Rapport YANG-MEUNIER
 
 NaiveVmAllocationPolicy
-	On gère ici seulement la création des Vms sur le premier host disponible. Pour cela on boucle sur nos hotes et on crée la vm. Si la fonction VmCreate nous retourne TRUE alors c'est ok sinon on passe à l'hote suivant et on fait pareil.
+	On gère ici seulement la création des Vms sur le premier host disponible. Pour cela on boucle sur nos hotes et on crée la vm. Si la fonction VmCreate nous retourne TRUE alors la VM est créée, sinon on passe à l'hote suivant.
 
 AntiAffinityVmAllocationPolicy
 	Créer les Vms sur des hotes différents celon leurs groupes.
@@ -9,8 +9,8 @@ AntiAffinityVmAllocationPolicy
 		Groupe 100-199
 		Groupe 200-299
 		...
-	Pour cela, on doit vérifier sur l'hote qu'il n'existe pas déja des Vms avec un id appartenant au meme groupe. 
-	Pour chaque hote, on vérifie s'il existe des VM, si non, on y crée la VM. Si oui, on vérifie par calcul (en comparant les id divisé par 100) si la règle n'est pas respectée.
+	Pour cela, on doit vérifier sur l'hote qu'il n'existe pas déja des Vms avec un id appartenant au même groupe. 
+	Pour chaque hote, on vérifie s'il existe des VM; si non, on y crée la VM. Si oui, on vérifie par calcul (en comparant les id divisé par 100) si la règle n'est pas respectée.
 
 AntiAffinityObserver
 	Cette classe vérifie si la règle précédente est respectée. Pour cela, nous avons dû rajouter un paramètre host dans observers.build() de Main.java, nous permettant d'avoir la liste de nos hotes dans l'observer.
@@ -22,14 +22,12 @@ LoadBalanceVmAllocationPolicy
 	Cet algorithme trouve le meilleur host en fonction des MIPS disponibles pour y créer la VM.
 
 LoadBalanceObserver
-	Chaque seconde, on cherche le MIPS max ainsi que le MIPS min en parcourant toutes les VMs. A la fin on calcul la différences pour afficher 
-	Les MIPS actuellement consommées.
+	Chaque seconde, on cherche le MIPS max ainsi que le MIPS min en parcourant toutes les VMs. A la fin, on calcul la différence pour afficher les MIPS actuellement consommées.
 
 NoViolationsVmAllocationPolicy
-	Cet algorithme permet de n'avoir aucune pénalitées. Pour cela on doit s'assurer que l'host qui va recevoir la VM à un PE avec assez de MIPS disponible.
+	Cet algorithme permet de n'avoir aucune pénalitées. Pour cela on doit s'assurer que l'host qui va recevoir la VM à un PE avec assez de MIPS disponibles.
 	Il faut en effet, comparer les MIPS available pour chaque PE et non plus les MIPS available de tout l'host.
 
 StatEnergyVmAllocationPolicy
 	On a pour cet algorithme constaté que dans la classe PowerHost il exister une fonction getPower() qui nous donné l'energie consommé par un host.
-	Pour économiser cette énergie au maximum on vas privilégier la création des VMs sur les hosts qui consomme le moins d'énergie. Pour cela on trie la 
-	list des hosts du plus petit au plus grand en fonction de l'energie. Il nous reste ensuite à créer de façon naive nos VMs sur cette liste de hosts triées.
+	Pour économiser cette énergie au maximum, on va privilégier la création des VMs sur les hosts qui consomme le moins d'énergie. Pour cela, on trie les hosts du plus petit au plus grand en fonction de l'energie. Il nous reste ensuite à créer de façon naive nos VMs sur cette liste de hosts triées.
